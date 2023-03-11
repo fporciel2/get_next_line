@@ -6,23 +6,43 @@
 /*   By: fporciel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 17:29:42 by fporciel          #+#    #+#             */
-/*   Updated: 2023/03/11 09:32:26 by fporciel         ###   ########.fr       */
+/*   Updated: 2023/03/11 11:15:33 by fporciel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
+static char	*ft_read(int fd, char **str)
+{
+	char	*buf;
+
+	buf = *str;
+	if ((*str == NULL) || (str == NULL))
+		return (NULL);
+	if (BUFFER_SIZE < 8192)
+	{
+		if (read(fd, buf, BUFFER_SIZE))
+	}
+}
+
 char	*get_next_line(int fd)
 {
-	static char	*str;
-	char		*result;
+	static char	str[8192][8192];
+	char		**stri;
+	char		*strin;
 
-	str = ft_read(fd, str);
-	if (!str)
+	if ((fd < 0) || (BUFFER_SIZE <= 0) || (BUFFER_SIZE > SIZE_MAX))
 		return (NULL);
-	result = ft_write(str);
-	if (result == NULL)
-		return (NULL);
-	str = ft_backup(str);
-	return (result);
+	while (str++ != &(str[8192]))
+	{
+		while (*str != &((*str)[8192]))
+			*str++;
+		if (*str++ == &((*str)[8192]))
+			**str = 0;
+	}
+	if (str++ == &(str[8192]))
+		*str = NULL;
+	stri = ft_read(fd, str);
+	strin = ft_write(stri);
+	return (strin);
 }

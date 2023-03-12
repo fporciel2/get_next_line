@@ -6,59 +6,32 @@
 /*   By: fporciel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 17:29:42 by fporciel          #+#    #+#             */
-/*   Updated: 2023/03/11 18:11:33 by fporciel         ###   ########.fr       */
+/*   Updated: 2023/03/12 18:02:47 by fporciel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static char	*ft_write(char **str)
-{
-	char	*stri;
-
-	stri = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	if (stri == NULL)
-		return (NULL);
-	while (*str-- != str[0][0])
-		str--;
-}
-
-static char	**ft_read(int fd, char **str)
-{
-	char	*buf;
-	char	*buf1;
-	size_t	count;
-
-	if (*str == &(str[0][0]))
-		buf = *str;
-	else
-	{
-		str++;
-		buf = *str;
-	}
-	count = read(fd, buf, BUFFER_SIZE);
-	if (count <= 0)
-		return (ft_free_str(str));
-	else if (ft_buf_check(buf, count))
-		*str = buf;
-	else
-	{
-		str++;
-		str = ft_read(fd, str);
-	}
-	return (str);
-}
-
 char	*get_next_line(int fd)
 {
-	static char	backup[8192][8192];
-	char		**str;
-	char		*stri;
+	static char	backup[2][268435456];
+	char		*buf;
+	size_t		count;
+	int			back_up;
 
-	if ((fd < 0) || (BUFFER_SIZE <= 0) || (BUFFER_SIZE >= (8192 * 8192)))
+	if ((fd < 0) || (BUFFER_SIZE <= 0) || (BUFFER_SIZE >= 238435456))
 		return (NULL);
-	str = ft_read(fd, backup);
-	stri = ft_write(str);
-	backup = ft_backup(str, stri);
-	return (backup);
+	buf = *backup;
+	count = read(fd, buf, count);
+	if (count < 0)
+		return (NULL);
+	else
+		buf[count] = 0;
+	back_up = ft_backup(buf, backup);
+	if (back_up == 0)
+		return (NULL);
+	else if ((buf[count - 1] != 10) && (count != 0))
+		return (get_next_line(fd));
+	else
+		return (ft_next_line(buf, backup));
 }

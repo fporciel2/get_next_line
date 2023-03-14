@@ -6,7 +6,7 @@
 /*   By: fporciel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 17:28:34 by fporciel          #+#    #+#             */
-/*   Updated: 2023/03/14 11:46:00 by fporciel         ###   ########.fr       */
+/*   Updated: 2023/03/14 15:06:53 by fporciel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,5 +22,6 @@
 # include <unistd.h>
 
 char	*get_next_line(int fd);
+int		ft_check_buf(char *buf);
 
 #endif

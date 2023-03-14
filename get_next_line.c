@@ -6,14 +6,34 @@
 /*   By: fporciel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 17:29:42 by fporciel          #+#    #+#             */
-/*   Updated: 2023/03/14 14:10:17 by fporciel         ###   ########.fr       */
+/*   Updated: 2023/03/14 14:26:44 by fporciel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static char	*ft_copy_line(char *buf, char *result)
+static char	*ft_copy_line(char *buf, char *backup)
 {
+	size_t	i;
+	size_t	j;
+
+	i = 0;
+	j = 0;
+	if (backup[i] == 0)
+	{
+		while (buf[i++] != 0)
+			backup[i] = buf[i];
+		backup[i] = 0;
+	}
+	else
+	{
+		while (backup[i] != 0)
+			i++;
+		while (buf[j] != 0)
+			backup[i++] = buf[j++];
+		backup[i] = 0;
+	}
+	return (backup);
 }
 
 static char	*ft_get_line(char *backup, char *result)

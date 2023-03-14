@@ -6,20 +6,40 @@
 /*   By: fporciel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 17:29:42 by fporciel          #+#    #+#             */
-/*   Updated: 2023/03/14 12:51:59 by fporciel         ###   ########.fr       */
+/*   Updated: 2023/03/14 14:10:17 by fporciel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static char	*ft_get_line(char *buf, char *backup)
+static char	*ft_copy_line(char *buf, char *result)
 {
+}
+
+static char	*ft_get_line(char *backup, char *result)
+{
+	size_t	i;
+
+	i = 0;
+	while ((backup[i - 1] != 10) && (backup[i] != 0))
+		i++;
+	result = (char *)malloc(sizeof(char) * (i + 1));
+	if (result == NULL)
+		return (NULL);
+	i = 0;
+	while ((backup[i - 1] != 10) && (backup[i] != 0))
+	{
+		result[i] = backup[i];
+		i++;
+	}
+	result[i] = 0;
+	ft_sort_backup(i, backup);
+	return (result);
 }
 
 static char	*ft_read_line(int fd, char *buf)
 {
 	size_t	count;
-	size_t	recount;
 
 	buf = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (buf == NULL)
@@ -27,12 +47,6 @@ static char	*ft_read_line(int fd, char *buf)
 	count = read(fd, buf, BUFFER_SIZE);
 	if (count < 0)
 		return (NULL);
-	recount = (BUFFER_SIZE + 1);
-	if (count < recount)
-	{
-		while (recount-- > count)
-			free(buf[recount]);
-	}
 	buf[count] = 0;
 	if ((!(ft_check_buf(buf))) && (count != 0))
 	{
@@ -55,7 +69,7 @@ char	*get_next_line(int fd)
 	if (buf == NULL)
 		return (NULL);
 	backup = ft_copy_line(buf, backup);
-	result = ft_get_line(buf, result);
+	result = ft_get_line(backup, result);
 	if (result == NULL)
 		return (NULL);
 	free(buf);

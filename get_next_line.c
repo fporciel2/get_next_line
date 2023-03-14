@@ -6,7 +6,7 @@
 /*   By: fporciel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 17:29:42 by fporciel          #+#    #+#             */
-/*   Updated: 2023/03/14 15:51:23 by fporciel         ###   ########.fr       */
+/*   Updated: 2023/03/14 16:08:13 by fporciel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,45 +65,42 @@ static char	*ft_copy_line(char *buf, char *backup)
 static char	*ft_get_line(char *backup, char *result)
 {
 	size_t	i;
-	char	*result1;
 
 	i = 0;
 	while ((backup[i - 1] != 10) && (backup[i] != 0))
 		i++;
-	result1 = (char *)malloc(sizeof(char) * (i + 1));
-	if (result1 == NULL)
+	result = (char *)malloc(sizeof(char) * (i + 1));
+	if (result == NULL)
 		return (NULL);
 	i = 0;
 	while ((backup[i - 1] != 10) && (backup[i] != 0))
 	{
-		result1[i] = backup[i];
+		result[i] = backup[i];
 		i++;
 	}
-	result1[i] = 0;
+	result[i] = 0;
 	ft_sort_backup(i, backup);
-	result = result1;
 	return (result);
 }
 
 static char	*ft_read_line(int fd, char *buf)
 {
 	size_t	count;
-	char	*buf1;
 
-	buf1 = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	if (buf1 == NULL)
+	buf = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	if (buf == NULL)
 		return (NULL);
-	count = read(fd, buf1, BUFFER_SIZE);
+	count = read(fd, buf, BUFFER_SIZE);
 	if (count < 0)
 		return (NULL);
-	buf1[count] = 0;
-	if ((!(ft_check_buf(buf1))) && (count != 0))
+	buf[count] = 0;
+	if ((!(ft_check_buf(buf))) && (count != 0))
 	{
-		buf1[count] = *(ft_read_line(fd, &(buf[count])));
-		if ((&(buf1[count])) == NULL)
+		buf = ft_read_line(fd, &(buf[count]));
+		if ((&(buf[count])) == NULL)
 			return (NULL);
 	}
-	buf = buf1;
+	buf = buf[0];
 	return (buf);
 }
 
@@ -116,12 +113,10 @@ char	*get_next_line(int fd)
 
 	if ((fd < 0) || (fd > 1024) || (BUFFER_SIZE <= 0))
 		return (NULL);
-	buf = NULL;
 	buf = ft_read_line(fd, buf);
 	if (buf == NULL)
 		return (NULL);
 	backup1 = ft_copy_line(buf, backup);
-	result = NULL;
 	result = ft_get_line(backup1, result);
 	if (result == NULL)
 		return (NULL);

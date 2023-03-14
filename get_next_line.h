@@ -6,7 +6,7 @@
 /*   By: fporciel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 17:28:34 by fporciel          #+#    #+#             */
-/*   Updated: 2023/03/14 08:47:08 by fporciel         ###   ########.fr       */
+/*   Updated: 2023/03/14 11:46:00 by fporciel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 #  define BUFFER_SIZE 1
 # endif
 
+# include <stddef.h>
+# include <stdlib.h>
 # include <unistd.h>
 
 char	*get_next_line(int fd);

@@ -6,32 +6,46 @@
 /*   By: fporciel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 17:29:42 by fporciel          #+#    #+#             */
-/*   Updated: 2023/03/13 13:24:03 by fporciel         ###   ########.fr       */
+/*   Updated: 2023/03/14 10:34:39 by fporciel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
+static char	*ft_read_line(int fd, char *buf)
+{
+	size_t	count;
+	size_t	recount;
+
+	buf = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	if (buf == NULL)
+		return (NULL);
+	count = read(fd, buf, BUFFER_SIZE);
+	if (count < 0)
+		return (NULL);
+	recount = (BUFFER_SIZE + 1);
+	if (count < recount)
+	{
+		while (recount-- > count)
+			free(buf[recount]);
+	}
+	buf[count] = 0;
+	if (!(ft_check_buf(buf)))
+		&(buf[count]) = ft_read_line(fd, &(buf[count]));
+	return (buf);
+}
+
 char	*get_next_line(int fd)
 {
-	static char	backup[536870912];
-	char		buf;
+	static char	*backup;
+	char		*buf;
 	size_t		count;
-	size_t		i;
+	size_t		recount;
 
-	if ((fd < 0) || (BUFFER_SIZE <= 0))
+	if ((fd < 0) || (fd > 1024) || (BUFFER_SIZE <= 0))
 		return (NULL);
-	i = 0;
-	count = read(fd, &buf, 1);
-	while (count > 0)
-	{
-		backup[i++] = buf;
-		if (backup[i - 1] == 10)
-			break ;
-		count = read(fd, &buf, 1);
-	}
-	if (count == 0)
+	buf = ft_read_line(fd, buf);
+	if (buf == NULL)
 		return (NULL);
-	backup[i] = 0;
-	return (backup);
+	free(buf);
 }

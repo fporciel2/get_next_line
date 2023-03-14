@@ -6,8 +6,22 @@
 /*   By: fporciel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 13:33:47 by fporciel          #+#    #+#             */
-/*   Updated: 2023/03/13 13:33:54 by fporciel         ###   ########.fr       */
+/*   Updated: 2023/03/14 15:04:16 by fporciel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "get_next_line.h"
 
+int	ft_check_buf(char *buf)
+{
+	size_t	i;
+
+	i = 0;
+	while (buf[i] != 0)
+	{
+		if (buf[i] == 10)
+			return (1);
+		i++;
+	}
+	return (0);
+}

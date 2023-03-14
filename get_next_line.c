@@ -6,11 +6,37 @@
 /*   By: fporciel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 17:29:42 by fporciel          #+#    #+#             */
-/*   Updated: 2023/03/14 14:26:44 by fporciel         ###   ########.fr       */
+/*   Updated: 2023/03/14 14:56:19 by fporciel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+static void	ft_sort_backup(size_t i, char *backup)
+{
+	size_t	j;
+
+	j = 0;
+	if (backup[i] != 0)
+	{
+		while (backup[i] != 0)
+		{
+			backup[j] = backup[i];
+			j++;
+			i++;
+		}
+		backup[j] = backup[i];
+		j++;
+		while (backup[j++] != 0)
+			backup[j] = 0;
+	}
+	else
+	{
+		while (i-- != 0)
+			backup[i] = 0;
+		backup[i] = 0;
+	}
+}
 
 static char	*ft_copy_line(char *buf, char *backup)
 {
